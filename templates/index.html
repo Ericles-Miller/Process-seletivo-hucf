@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+<head>
+{%block head%}
+
+<!--===============================================================================================-->	
+	<link rel="icon"       type="image/png"href="{{ url_for('static', filename= 'images/icons/favicon.ico"/')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/bootstrap/css/bootstrap.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'fonts/iconic/css/material-design-iconic-font.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/animate/animate.css')}}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/css-hamburgers/hamburgers.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/animsition/css/animsition.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/select2/select2.min.css')}}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'vendor/daterangepicker/daterangepicker.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/util.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename= 'css/main.css')}}">
+<!--===============================================================================================-->
+{{super()}} {%endblock%}
+</head>
+{% block content%}
+    <script src="" async defer></script> 
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+				<form method= 'POST' action="/" class="login100-form validate-form">
+					<!--<span class="login100-form-title p-b-49">
+						Login
+					</span>
+
+					<div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
+						<span class="label-input100">Email</span>
+						<input class="input100" type="text" name="Email" placeholder="Digite seu email" >
+						<span class="focus-input100" data-symbol="&#xf206;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" <data-validate="Password is required">
+						<span class="label-input100">Senha</span>
+						<input class="input100" type="password" name="pass" placeholder="Digite sua Senha">
+						<span class="focus-input100" data-symbol="&#xf190;"></span>
+					</div>
+					
+					<div class="text-right p-t-8 p-b-31">
+						<a href="#">
+							Esqueceu a senha?
+						</a>
+					</div>
+					
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button type="submit" class="login100-form-btn">
+								Acessar
+							</button>
+						</div>
+					</div>
+					-->
+					<div class="txt1 text-center p-t-54 p-b-20">
+						<span>
+							Ou Acesse com:
+						</span>
+					</div>
+
+					<div class="flex-c-m">
+						<a href="{{url_for('facebook_login')}}" class="login100-social-item bg1">
+							<i class="fa fa-facebook"></i>
+						</a>
+
+						<a href="{{url_for('twitter_login')}}" class="login100-social-item bg2">
+							<i class="fa fa-twitter"></i>
+						</a>
+						<div id="LoginScreen">
+						<button id="login" class="login100-social-item bg3">
+							<i class="fa fa-google"></i></button> 
+						</div>
+					</div>
+					<div class="flex-col-c p-t-155">
+						<a href="#"><span class="txt1 p-b-17">
+							OU CRIE SUA CONTA 
+						</span></a>
+
+						<a href="#" class="txt2">
+							Sair
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-analytics.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyDYlqHS3MamsIsfmdai9LbkVDwdfBpe-f4",
+    authDomain: "processo-seletivo-estagiario.firebaseapp.com",
+    databaseURL: "https://processo-seletivo-estagiario-default-rtdb.firebaseio.com",
+    projectId: "processo-seletivo-estagiario",
+    storageBucket: "processo-seletivo-estagiario.appspot.com",
+    messagingSenderId: "379647248745",
+    appId: "1:379647248745:web:e7c7c68d949494e7b995f8",
+    measurementId: "G-HT16M6NT0Y"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  document.getElementById('dashboard').style.display="none"
+  document.getElementById('login').addEventListener('click', GoogleLogin)
+
+  let provider = new firebase.auth.GoogleAuthProvider()
+
+
+  function GoogleLogin(){
+    console.log('Login Btn Call')
+    firebase.auth().signInWithPopup(provider).then(res=>{
+      console.log(res.user)
+      document.getElementById('LoginScreen').style.display=""
+      document.getElementById('dashboard').style.display="block"
+      showUserDetails(res.user)
+    }).catch(e=>{
+      console.log(e)
+    })
+  }
+   
+  function showUserDetails(user){
+        document.getElementById('userDetails').innerHTML = `
+          <img src="${user.photoURL}" style="width:10%">
+          <p>Name: ${user.displayName}</p>
+          <p>Email: ${user.email}</p>
+        `
+      }
+   function checkAuthState(){
+        firebase.auth().onAuthStateChanged(user=>{
+          if(user){
+            document.getElementById('LoginScreen').style.display="None"
+            document.getElementById('dashboard').style.display="block"
+            showUserDetails(user)
+          }else{
+
+          }
+        })
+      }
+    
+      function LogoutUser(){
+        console.log('Logout Btn Call')
+        firebase.auth().signOut().then(()=>{
+          document.getElementById('LoginScreen').style.display="block"
+          document.getElementById('dashboard').style.display="none"
+        }).catch(e=>{
+          console.log(e)
+        })
+      }
+      checkAuthState()
+</script>
+	
+
+	<div id="dropDownSelect1"></div>
+<!--===============================================================================================-->
+    <!--<script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script> -->
+<!--===============================================================================================-->
+	<!-- <script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script> -->
+<!--===============================================================================================-->	
+	<script src="{{ url_for('static', filename= 'js/firebase.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename= 'vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename= 'vendor/animsition/js/animsition.min.js')}}"></script>
+<!--===============================================================================================-->
+	<!--<script src="{{ url_for('static', filename= 'vendor/bootstrap/js/popper.js')}}"></script>-->
+	<!--<script src="{{ url_for('static', filename= 'vendor/bootstrap/js/bootstrap.min.js')}}"></script>-->
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename= 'vendor/select2/select2.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename= 'vendor/daterangepicker/moment.min.js')}}"></script>
+	<script src="{{ url_for('static', filename= 'vendor/daterangepicker/daterangepicker.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename= 'vendor/countdowntime/countdowntime.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{ url_for('static', filename= 'js/main.js')}}"></script>
+{%endblock%}
